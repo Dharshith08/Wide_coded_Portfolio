@@ -31,26 +31,62 @@ type DbShape = {
 
 const runtimeDir = path.join(process.cwd(), "data", "runtime");
 const dbPath = path.join(runtimeDir, "portfolio-db.json");
+let useMemoryOnly = false;
+let memoryDb: DbShape = { analytics: [], contacts: [] };
+
+function cloneDb(db: DbShape): DbShape {
+  return {
+    analytics: [...db.analytics],
+    contacts: [...db.contacts]
+  };
+}
 
 async function ensureDb() {
-  await mkdir(runtimeDir, { recursive: true });
+  if (useMemoryOnly) {
+    return;
+  }
 
   try {
+    await mkdir(runtimeDir, { recursive: true });
     await readFile(dbPath, "utf8");
   } catch {
-    const empty: DbShape = { analytics: [], contacts: [] };
-    await writeFile(dbPath, JSON.stringify(empty, null, 2), "utf8");
+    try {
+      const empty: DbShape = { analytics: [], contacts: [] };
+      await writeFile(dbPath, JSON.stringify(empty, null, 2), "utf8");
+    } catch {
+      useMemoryOnly = true;
+    }
   }
 }
 
 async function loadDb(): Promise<DbShape> {
   await ensureDb();
-  const raw = await readFile(dbPath, "utf8");
-  return JSON.parse(raw) as DbShape;
+
+  if (useMemoryOnly) {
+    return cloneDb(memoryDb);
+  }
+
+  try {
+    const raw = await readFile(dbPath, "utf8");
+    return JSON.parse(raw) as DbShape;
+  } catch {
+    useMemoryOnly = true;
+    return cloneDb(memoryDb);
+  }
 }
 
 async function saveDb(db: DbShape) {
-  await writeFile(dbPath, JSON.stringify(db, null, 2), "utf8");
+  if (useMemoryOnly) {
+    memoryDb = cloneDb(db);
+    return;
+  }
+
+  try {
+    await writeFile(dbPath, JSON.stringify(db, null, 2), "utf8");
+  } catch {
+    useMemoryOnly = true;
+    memoryDb = cloneDb(db);
+  }
 }
 
 export function hashIp(ip: string): string {
