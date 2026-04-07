@@ -6,16 +6,20 @@ import { ReactNode, useEffect } from "react";
 export default function LenisProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ecoPreference = localStorage.getItem("portfolio-eco");
+    const fxPreference = localStorage.getItem("portfolio-fx");
+    const ecoMode = ecoPreference ? ecoPreference === "true" : document.body.dataset.eco === "true";
+    const fxMode = fxPreference ? fxPreference === "true" : document.body.dataset.fx !== "false";
 
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || ecoMode || !fxMode) {
       return;
     }
 
     const lenis = new Lenis({
-      duration: 0.92,
+      duration: 0.8,
       smoothWheel: true,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.05
+      wheelMultiplier: 0.88,
+      touchMultiplier: 1.0
     });
 
     let rafId = 0;

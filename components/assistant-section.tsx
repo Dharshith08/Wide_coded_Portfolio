@@ -14,7 +14,8 @@ type ChatMessage = {
 const starters = [
   "What are Dharshith's strongest skills?",
   "Tell me about recent projects.",
-  "How can I contact Dharshith?"
+  "Give me one nerdy joke and then show contact info.",
+  "Roast my stack gently and suggest better tools."
 ];
 
 export default function AssistantSection() {
@@ -25,7 +26,7 @@ export default function AssistantSection() {
     {
       role: "assistant",
       content:
-        "I am Dharshith's assistant. Ask about projects, architecture strengths, tech stack, or contact details.",
+        "I am Dharshith's assistant. Ask about projects, architecture strengths, tech stack, contact details, or ask for one clean engineer joke.",
       source: "local"
     }
   ]);
@@ -137,7 +138,7 @@ export default function AssistantSection() {
             <input
               value={input}
               onChange={(event) => setInput(event.target.value)}
-              placeholder="Ask about stack, projects, architecture, or contact"
+              placeholder="Ask about stack, projects, architecture, contact, or ask for a joke"
               className="w-full rounded-xl border border-white/15 bg-slate-950/60 px-4 py-3 text-sm text-text outline-none transition focus:border-accent/55"
               aria-label="Ask portfolio assistant"
             />

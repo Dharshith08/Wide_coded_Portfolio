@@ -4,6 +4,9 @@
 
 :root {
   color-scheme: dark;
+  --bg-a: #060b12;
+  --bg-b: #070d16;
+  --bg-c: #060a10;
 }
 
 * {
@@ -29,11 +32,27 @@ body {
   background:
     radial-gradient(1200px 600px at 0% -20%, rgba(54, 215, 183, 0.2), transparent 60%),
     radial-gradient(1000px 600px at 100% 0%, rgba(245, 185, 113, 0.18), transparent 55%),
-    linear-gradient(180deg, #060b12 0%, #070d16 45%, #060a10 100%);
+    linear-gradient(180deg, var(--bg-a) 0%, var(--bg-b) 45%, var(--bg-c) 100%);
   background-attachment: fixed;
   font-family: var(--font-manrope), sans-serif;
   overflow-x: hidden;
   overscroll-behavior-y: none;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.08;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(229, 238, 248, 0.12) 0px,
+    rgba(229, 238, 248, 0.12) 1px,
+    transparent 1px,
+    transparent 4px
+  );
 }
 
 a {
@@ -63,21 +82,64 @@ a {
   border: 1px solid rgba(139, 163, 187, 0.22);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
   transition: transform 260ms ease, border-color 260ms ease;
 }
 
 .soft-card:hover {
   border-color: rgba(54, 215, 183, 0.35);
+  transform: translateY(-2px);
+}
+
+.soft-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(120deg, transparent 20%, rgba(54, 215, 183, 0.12), transparent 80%);
+  opacity: 0;
+  transition: opacity 280ms ease;
+}
+
+.soft-card:hover::after {
+  opacity: 1;
 }
 
 .fade-mask {
   mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
 }
 
+.eco-pill {
+  border: 1px solid rgba(54, 215, 183, 0.35);
+  background: rgba(54, 215, 183, 0.12);
+  color: #69e8cd;
+}
+
+body[data-eco="true"] {
+  background-attachment: scroll;
+}
+
+body[data-eco="true"] .fx-heavy,
+body[data-eco="true"] .scanline {
+  display: none !important;
+}
+
+body[data-eco="true"] .soft-card {
+  backdrop-filter: none;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.3);
+}
+
 @media (max-width: 767px) {
   html,
   body {
     scroll-snap-type: y proximity;
+  }
+
+  body {
+    background-attachment: scroll;
   }
 }
 
@@ -93,5 +155,10 @@ a {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .fx-heavy,
+  .scanline {
+    display: none !important;
   }
 }

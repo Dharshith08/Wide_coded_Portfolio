@@ -12,6 +12,7 @@ import ScrollProgress from "@/components/scroll-progress";
 import SectionDock from "@/components/section-dock";
 import CommandPalette from "@/components/command-palette";
 import AnalyticsClient from "@/components/analytics-client";
+import ExperienceControls from "@/components/experience-controls";
 
 const AssistantSection = dynamic(() => import("@/components/assistant-section"), {
   loading: () => (
@@ -29,6 +30,7 @@ export default function PortfolioShell() {
       <AnalyticsClient />
       <ScrollProgress />
       <UiEffects />
+      <ExperienceControls />
       <SectionDock />
       <CommandPalette />
       <Navbar />

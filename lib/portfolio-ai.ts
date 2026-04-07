@@ -7,6 +7,7 @@ type Intent =
   | "contact"
   | "github"
   | "title"
+  | "humor"
   | "unknown";
 
 const intentKeywords: Record<Intent, string[]> = {
@@ -16,6 +17,7 @@ const intentKeywords: Record<Intent, string[]> = {
   contact: ["contact", "email", "hire", "reach", "linkedin", "x"],
   github: ["github", "repo", "repositories", "code"],
   title: ["title", "role", "position", "specialize", "speciality"],
+  humor: ["joke", "funny", "humor", "roast", "meme", "laugh"],
   unknown: []
 };
 
@@ -34,11 +36,11 @@ function detectIntent(input: string): Intent {
 function localReply(intent: Intent): string {
   switch (intent) {
     case "skills":
-      return `Dharshith works across ${stack.join(", ")}. Strongest focus: realtime systems, scalable backends, and AI application architecture.`;
+      return `Dharshith works across ${stack.join(", ")}. Core strengths are realtime systems, scalable backends, and AI architecture. In short: low latency, high reliability, zero drama.`;
     case "projects":
       return `Featured projects include ${projects
         .map((project) => project.name)
-        .join(", ")}. Ask me for details on any one project.`;
+        .join(", ")}. Ask me for details on any one project and I will skip the buzzwords.`;
     case "about":
       return profile.bio;
     case "contact":
@@ -47,8 +49,10 @@ function localReply(intent: Intent): string {
       return `GitHub: ${profile.github}. Repositories include realtime ops tools, AI logistics workflows, and collaboration systems.`;
     case "title":
       return profile.title;
+    case "humor":
+      return "Engineer joke of the day: we do not have bugs, only undocumented surprise features. Good news, Dharshith documents and fixes both.";
     default:
-      return "I can answer about Dharshith's skills, projects, architecture focus, and contact details.";
+      return "Ask me about skills, projects, architecture, or contact details. I am concise, helpful, and occasionally funny on purpose.";
   }
 }
 
@@ -74,7 +78,7 @@ async function huggingFaceReply(question: string): Promise<string | null> {
     }))
   };
 
-  const prompt = `You are Dharshith's portfolio assistant. Answer clearly and concisely.\n\nContext:\n${JSON.stringify(
+  const prompt = `You are Dharshith's portfolio assistant. Be concise, technically sharp, and lightly humorous when appropriate (no cringe, no sarcasm toward the user).\n\nContext:\n${JSON.stringify(
     context,
     null,
     2
