@@ -24,10 +24,10 @@ export const profile = {
   phoneRaw: "+918668059519",
   whatsapp: "https://wa.me/918668059519",
   location: "India",
-  github: "https://github.com/dharshith",
-  linkedin: "https://www.linkedin.com/in/dharshith",
-  x: "https://x.com/dharshith",
-  instagram: "https://www.instagram.com/dharsith/"
+  github: "https://github.com/Dharshith08",
+  linkedin: "https://www.linkedin.com/in/dharshith-b08lll/",
+  x: "https://x.com/Dharsith111",
+  instagram: "https://www.instagram.com/dharshith_08.1/"
 };
 
 export const stack = [
