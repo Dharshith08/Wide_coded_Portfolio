@@ -1,0 +1,33 @@
+{
+  "analytics": [
+    {
+      "type": "page_view",
+      "path": "/",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Microsoft Windows 10.0.26200; en-IN) PowerShell/7.5.5",
+      "ipHash": "eff8e7ca506627fe",
+      "id": "a194d295-85d9-4b4b-8a53-27ca264b3752",
+      "timestamp": "2026-04-06T15:55:19.201Z"
+    },
+    {
+      "type": "contact_submit",
+      "path": "/contact",
+      "target": "contact_form",
+      "ipHash": "eff8e7ca506627fe",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Microsoft Windows 10.0.26200; en-IN) PowerShell/7.5.5",
+      "id": "17741b74-0b27-4ab0-868a-07350dfeebe5",
+      "timestamp": "2026-04-06T15:55:21.141Z"
+    }
+  ],
+  "contacts": [
+    {
+      "name": "Test User",
+      "email": "test@example.com",
+      "phone": "+919999999999",
+      "message": "Hello from smoke test",
+      "source": "terminal-test",
+      "ipHash": "eff8e7ca506627fe",
+      "id": "c2d9d913-248d-4805-86ea-af31b37e5d33",
+      "timestamp": "2026-04-06T15:55:21.137Z"
+    }
+  ]
+}
