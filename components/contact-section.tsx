@@ -14,6 +14,7 @@ export default function ContactSection() {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [mailDelivered, setMailDelivered] = useState(true);
 
   const copyEmail = async () => {
     try {
@@ -47,6 +48,9 @@ export default function ContactSection() {
         throw new Error("Contact submit failed");
       }
 
+      const payload = (await response.json()) as { mailSent?: boolean };
+      setMailDelivered(payload.mailSent !== false);
+
       trackClientEvent({ type: "contact_submit", target: "contact_form", path: "/" });
 
       setStatus("sent");
@@ -56,6 +60,7 @@ export default function ContactSection() {
       setMessage("");
     } catch {
       setStatus("error");
+      setMailDelivered(false);
     }
   };
 
@@ -151,7 +156,12 @@ export default function ContactSection() {
             />
           </form>
 
-          {status === "sent" ? <p className="mt-3 text-sm text-emerald-300">Message saved. Dharshith can now follow up.</p> : null}
+          {status === "sent" && mailDelivered ? (
+            <p className="mt-3 text-sm text-emerald-300">Message sent successfully. Dharshith will follow up soon.</p>
+          ) : null}
+          {status === "sent" && !mailDelivered ? (
+            <p className="mt-3 text-sm text-amber-300">Message saved, but email delivery is pending server mail configuration.</p>
+          ) : null}
           {status === "error" ? <p className="mt-3 text-sm text-rose-300">Message failed. Try again shortly.</p> : null}
 
           <AnalyticsPanel />

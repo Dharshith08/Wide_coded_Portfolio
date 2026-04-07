@@ -32,6 +32,21 @@ npm install
 npm run dev
 ```
 
+## Contact Email Setup
+
+Set these environment variables in `.env.local` (and in Vercel Project Settings) to receive contact notifications by email:
+
+```bash
+SMTP_HOST=
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASS=
+CONTACT_FROM_EMAIL=
+CONTACT_TO_EMAIL=dharsithyeswa@gmail.com
+```
+
+Without SMTP configuration, the message is still stored in backend analytics but email delivery is marked as pending.
+
 ## Production
 
 ```bash

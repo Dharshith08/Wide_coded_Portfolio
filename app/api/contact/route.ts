@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { addContact, hashIp, trackEvent } from "@/lib/backend-store";
+import { sendContactEmail } from "@/lib/contact-mailer";
 
 export async function POST(req: NextRequest) {
   try {
@@ -45,7 +46,25 @@ export async function POST(req: NextRequest) {
       userAgent: req.headers.get("user-agent") || undefined
     });
 
-    return NextResponse.json({ ok: true, id: saved.id });
+    const mailSent = await sendContactEmail({
+      name: saved.name,
+      email: saved.email,
+      phone: saved.phone,
+      message: saved.message,
+      source: saved.source
+    });
+
+    if (!mailSent) {
+      await trackEvent({
+        type: "contact_email_deferred",
+        path: "/contact",
+        target: "smtp_unavailable",
+        ipHash,
+        userAgent: req.headers.get("user-agent") || undefined
+      });
+    }
+
+    return NextResponse.json({ ok: true, id: saved.id, mailSent });
   } catch {
     return NextResponse.json({ error: "Unable to submit contact request" }, { status: 500 });
   }
